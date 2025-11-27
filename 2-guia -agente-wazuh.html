@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: Instalación del Agente Wazuh</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .header-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #2196f3;
+        }
+        .header-box p {
+            margin: 5px 0;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        .step-section {
+            background: #f9f9f9;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        .step-number {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .step-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .step-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .emoji {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .important-box {
+            background: #ffebee;
+            border: 3px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .important-box strong {
+            color: #c62828;
+        }
+        .note-box {
+            background: #e8eaf6;
+            border-left: 4px solid #5c6bc0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .info-box {
+            background: #e1f5fe;
+            border-left: 4px solid #29b6f6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        ol {
+            padding-left: 20px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        ul li {
+            margin: 8px 0;
+        }
+        .credential-box {
+            background: #263238;
+            color: #aed581;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            border: 3px solid #4caf50;
+        }
+        .config-list {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 3px solid #9c27b0;
+        }
+        .config-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .config-list ul li {
+            padding-left: 25px;
+            position: relative;
+            margin: 12px 0;
+        }
+        .config-list ul li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #9c27b0;
+            font-weight: bold;
+        }
+        .final-celebration {
+            background: linear-gradient(135deg, #ffd54f 0%, #ffca28 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border: 3px solid #f9a825;
+            text-align: center;
+        }
+        .final-celebration h2 {
+            color: #f57f17;
+            margin-top: 0;
+            font-size: 28px;
+        }
+        .link-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 18px;
+            border: 2px solid #2196f3;
+        }
+        .link-box code {
+            background: #1976d2;
+            color: white;
+            font-size: 18px;
+            padding: 5px 15px;
+        }
+        .steps-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+        .steps-list > li {
+            counter-increment: step-counter;
+            padding-left: 35px;
+            position: relative;
+            margin: 15px 0;
+        }
+        .steps-list > li:before {
+            content: counter(step-counter) ".";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 18px;
+        }
+        .expert-tip {
+            background: #fff8e1;
+            border-left: 4px solid #ffa726;
+            padding: 12px 15px;
+            margin: 10px 0 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .expert-tip strong {
+            color: #e65100;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">📘</span> Guía Maestra: Instalación del Agente Wazuh</h1>
+        
+        <div class="header-box">
+            <p><strong>Objetivo:</strong> Conectar tu Windows 11 al servidor Wazuh (que vive en tu Docker) para empezar a monitorear.</p>
+        </div>
+
+        <div class="step-section">
+            <span class="step-number">1</span>
+            <div class="step-title">Iniciar Sesión <span style="color: #666; font-size: 18px;">(Cómo entrar)</span></div>
+            
+            <p>Primero, accede al panel de control de tu nuevo SOC.</p>
+            <ol class="steps-list">
+                <li>Abre tu navegador web.</li>
+                <li>
+                    <p>Escribe en la barra de direcciones:</p>
+                    <div class="link-box">
+                        <code>https://localhost</code>
+                    </div>
+                </li>
+                <li>Si te sale una advertencia de seguridad, dale a <strong>"Configuración avanzada"</strong> > <strong>"Continuar"</strong>.</li>
+                <li>
+                    <p>Login:</p>
+                    <div class="credential-box">
+<pre><code>Usuario: admin
+Contraseña: SecretPassword</code></pre>
+                        <p style="color: #aed581; margin-top: 10px; font-size: 12px;">(o la que hayas puesto si la cambiaste).</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="step-section">
+            <span class="step-number">2</span>
+            <div class="step-title">Ir al Despliegue <span style="color: #666; font-size: 18px;">(Dónde crearlo)</span></div>
+            
+            <p>Una vez dentro del panel principal (Dashboard):</p>
+            <ol class="steps-list">
+                <li>Busca el botón azul grande que dice <strong>"Add agent"</strong> en el centro de la pantalla.</li>
+                <li><strong>Alternativa:</strong> Si no ves el botón, haz clic en el menú de las tres rayas (arriba a la izquierda) > <strong>Agents</strong> > <strong>Deploy new agent</strong>.</li>
+            </ol>
+        </div>
+
+        <div class="step-section">
+            <span class="step-number">3</span>
+            <div class="step-title">Configurar el Agente <span style="color: #666; font-size: 18px;">(Paso a Paso)</span></div>
+            
+            <p>Ahora verás un formulario. Vamos a llenarlo exactamente así:</p>
+            
+            <div class="config-list">
+                <ul>
+                    <li>
+                        <strong>Step 1: Select OS (Sistema Operativo)</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Selecciona: <strong>Windows</strong> > <strong>MSI 32/64 bits</strong>.</li>
+                        </ul>
+                    </li>
+                    
+                    <li style="margin-top: 20px;">
+                        <strong>Step 2: Server address (Dirección del Servidor)</strong>
+                        <div class="important-box" style="margin-top: 10px;">
+                            <p><span class="emoji">⚠️</span> <strong>IMPORTANTE</strong></p>
+                        </div>
+                        <ul style="margin-top: 8px;">
+                            <li>Aquí es donde le dices al agente "dónde vive el cerebro".</li>
+                            <li>Escribe: <code>127.0.0.1</code></li>
+                            <li><strong>¿Por qué?</strong> Porque el servidor está en tu misma máquina (localhost).</li>
+                            <li><strong>Remember server address?</strong> Marca la casilla (SÍ).
+                                <div class="note-box" style="margin-top: 8px;">
+                                    <strong>Detalle:</strong> Esto guarda la IP para que si quieres instalar otro agente después, ya aparezca rellena.
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li style="margin-top: 20px;">
+                        <strong>Step 3: Optional settings</strong>
+                        <ul style="margin-top: 8px;">
+                            <li><strong>Agent name:</strong> Puedes dejarlo en blanco (usará el nombre de tu PC) o ponerle algo como <code>Mi-PC-Principal</code>.</li>
+                            <li><strong>Groups:</strong> Déjalo en <code>default</code>.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <span class="step-number">4</span>
+            <div class="step-title">Instalación <span style="color: #666; font-size: 18px;">(El Comando Mágico)</span></div>
+            
+            <p>Fíjate en el cuadro negro (<strong>"Step 4"</strong>) que apareció abajo. Wazuh generó un comando automático con la IP que pusiste.</p>
+            
+            <ol class="steps-list">
+                <li>
+                    <p>Haz clic en el botón de <strong>Copiar</strong> (o selecciona todo el texto y <code>Ctrl+C</code>).</p>
+                    <div class="expert-tip">
+                        <strong>Ojo de experto:</strong> Verifica que en el texto copiado aparezca <code>$env:WAZUH_MANAGER='127.0.0.1'</code>. Si ves comillas vacías <code>''</code>, es que no pusiste la IP en el paso 2.
+                    </div>
+                </li>
+                <li>Minimiza el navegador.</li>
+                <li>Presiona la tecla <strong>Windows</strong>, escribe <strong>PowerShell</strong>, haz clic derecho y selecciona <strong>"Ejecutar como administrador"</strong>.</li>
+                <li>
+                    <p>Pega el comando (<code>Ctrl+V</code> o clic derecho) y presiona <strong>Enter</strong>.</p>
+                    <div class="info-box">
+                        <p>Verás una barra de descarga y luego el proceso de instalación. Espera a que termine.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="step-section">
+            <span class="step-number">5</span>
+            <div class="step-title">Encender el Agente</div>
+            
+            <p>Por seguridad, el agente se instala "apagado". Vamos a encenderlo.</p>
+            
+            <ol class="steps-list">
+                <li>
+                    <p>En la misma ventana de PowerShell, escribe:</p>
+                    <pre><code>NET START WazuhSvc</code></pre>
+                </li>
+                <li>
+                    <div class="success-box">
+                        <p>Debería responderte: <strong>"El servicio de Wazuh se ha iniciado correctamente."</strong></p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="step-section">
+            <span class="step-number">6</span>
+            <div class="step-title">Verificación <span style="color: #666; font-size: 18px;">(El Momento de la Verdad)</span></div>
+            
+            <p>Vuelve a tu navegador web.</p>
+            
+            <ol class="steps-list">
+                <li>Haz clic en el botón <strong>"Back to agent list"</strong> o ve al inicio.</li>
+                <li>
+                    <p>Mira el contador de <strong>Total agents</strong>.</p>
+                    <ul style="margin-top: 10px;">
+                        <li>Debería marcar <strong>1</strong>.</li>
+                        <li>El estado (Status) debe decir <strong>Active</strong> (en verde).</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="final-celebration">
+            <h2><span class="emoji">🎉</span> ¡Y listo!</h2>
+            <p style="font-size: 18px; margin: 20px 0;">Si ves ese <strong>"Active"</strong>, significa que tu PC ya está enviando datos de seguridad a tu Docker en tiempo real.</p>
+        </div>
+    </div>
+</body>
+</html>

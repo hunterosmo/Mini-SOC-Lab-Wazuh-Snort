@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Maestra: Automatización con Python y Entorno Virtual</title>
+    <!-- Tailwind CSS para diseño rápido y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Highlight.js para colorear el código -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <script>hljs.highlightAll();</script>
+    
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+        pre {
+            margin-top: 0 !important;
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+        .step-card {
+            transition: transform 0.2s;
+        }
+        .step-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="max-w-5xl mx-auto p-6">
+        
+        <!-- Header -->
+        <header class="bg-white shadow-lg rounded-xl p-8 mb-8 border-l-8 border-blue-600">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                📘 Guía Maestra: Automatización con Python y Entorno Virtual
+            </h1>
+            <p class="text-lg text-gray-600 mt-4">
+                <strong>Objetivo:</strong> Al encender tu PC, el sistema arranca Docker, activa Snort en modo silencioso, ejecuta el análisis de seguridad con Python y te abre el navegador listo para entrar a Wazuh.
+            </p>
+            <div class="mt-4 bg-blue-50 text-blue-800 p-3 rounded-lg inline-block font-mono text-sm border border-blue-200">
+                <i class="fas fa-folder-open mr-2"></i>Carpeta de Trabajo: <strong>D:\Proyectos_SOC</strong>
+            </div>
+        </header>
+
+        <!-- Paso 1 -->
+        <section class="bg-white shadow-md rounded-xl p-6 mb-6 step-card border-l-4 border-green-500">
+            <h2 class="text-2xl font-bold text-green-700 mb-4 flex items-center">
+                <span class="bg-green-100 text-green-700 rounded-full h-10 w-10 flex items-center justify-center mr-3 text-xl">1</span>
+                🟢 PASO 1: Asegurar que Docker arranque solo
+            </h2>
+            <p class="mb-4 text-gray-700">El "cerebro" debe encenderse automáticamente al iniciar Windows para que la API esté lista.</p>
+            
+            <ul class="list-none space-y-2 text-gray-700 ml-4">
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Abre <strong>Docker Desktop</strong>.</li>
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Ve al engranaje de <strong>Settings</strong> (arriba a la derecha).</li>
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> En la pestaña <strong>General</strong>, marca la casilla:</li>
+                <li class="bg-gray-100 p-2 rounded ml-6 font-semibold border-l-4 border-gray-400">✅ Start Docker Desktop when you log in.</li>
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Dale a <strong>"Apply & Restart"</strong>.</li>
+            </ul>
+        </section>
+
+        <!-- Paso 2 -->
+        <section class="bg-white shadow-md rounded-xl p-6 mb-6 step-card border-l-4 border-yellow-500">
+            <h2 class="text-2xl font-bold text-yellow-700 mb-4 flex items-center">
+                <span class="bg-yellow-100 text-yellow-700 rounded-full h-10 w-10 flex items-center justify-center mr-3 text-xl">2</span>
+                🟡 PASO 2: Crear la "Burbuja" (Entorno Virtual)
+            </h2>
+            <p class="mb-4 text-gray-700">Aislamos las librerías de Python.</p>
+
+            <div class="space-y-4">
+                <div>
+                    <p class="font-semibold mb-1">Abre PowerShell y ve a tu carpeta:</p>
+                    <div class="code-header"><span>PowerShell</span><button onclick="copyToClipboard('code1')" class="text-xs hover:text-white"><i class="far fa-copy"></i> Copiar</button></div>
+                    <pre><code id="code1" class="language-powershell">d:
+cd D:\Proyectos_SOC</code></pre>
+                </div>
+
+                <div>
+                    <p class="font-semibold mb-1">Crea el entorno:</p>
+                    <div class="code-header"><span>PowerShell</span><button onclick="copyToClipboard('code2')" class="text-xs hover:text-white"><i class="far fa-copy"></i> Copiar</button></div>
+                    <pre><code id="code2" class="language-powershell">python -m venv venv</code></pre>
+                </div>
+
+                <div>
+                    <p class="font-semibold mb-1">Actívalo:</p>
+                    <div class="code-header"><span>PowerShell</span><button onclick="copyToClipboard('code3')" class="text-xs hover:text-white"><i class="far fa-copy"></i> Copiar</button></div>
+                    <pre><code id="code3" class="language-powershell">.\venv\Scripts\Activate</code></pre>
+                    <p class="text-sm text-gray-500 italic mt-1">(Verás (venv) en verde al inicio de la línea).</p>
+                </div>
+
+                <div>
+                    <p class="font-semibold mb-1">Instala las librerías:</p>
+                    <div class="code-header"><span>PowerShell</span><button onclick="copyToClipboard('code4')" class="text-xs hover:text-white"><i class="far fa-copy"></i> Copiar</button></div>
+                    <pre><code id="code4" class="language-powershell">pip install requests urllib3</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Paso 3 -->
+        <section class="bg-white shadow-md rounded-xl p-6 mb-6 step-card border-l-4 border-orange-500">
+            <h2 class="text-2xl font-bold text-orange-700 mb-4 flex items-center">
+                <span class="bg-orange-100 text-orange-700 rounded-full h-10 w-10 flex items-center justify-center mr-3 text-xl">3</span>
+                🟠 PASO 3: Crear el Cerebro (analista_soc.py)
+            </h2>
+            <p class="mb-4 text-gray-700">Este script consulta a la API de Wazuh y busca las alertas que Snort haya generado.</p>
+            
+            <ol class="list-decimal list-inside space-y-2 mb-4 text-gray-700">
+                <li>Abre el Bloc de Notas.</li>
+                <li>Copia y pega este código completo:</li>
+            </ol>
+
+            <div class="code-header"><span>Python</span><button onclick="copyToClipboard('code-python')" class="text-xs hover:text-white"><i class="far fa-copy"></i> Copiar</button></div>
+            <pre><code id="code-python" class="language-python">import requests
+import json
+import urllib3
+import time
+
+# --- CONFIGURACIÓN ---
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+WAZUH_API_URL = "https://127.0.0.1:55000"
+
+# Credenciales internas de la API (del docker-compose)
+API_USER = "wazuh-wui"
+API_PASS = "MyS3cr37P450r.*-" 
+
+def get_token():
+    url = f"{WAZUH_API_URL}/security/user/authenticate"
+    try:
+        response = requests.get(url, auth=(API_USER, API_PASS), verify=False)
+        if response.status_code == 200:
+            return response.json()['data']['token']
+        else:
+            print(f"❌ Error Login API: {response.text}")
+            return None
+    except Exception as e:
+        print(f"❌ Error conectando a Wazuh (¿Docker está encendido?): {e}")
+        return None
+
+def check_alerts(token):
+    # Buscamos alertas del grupo 'ids' (Snort)
+    url = f"{WAZUH_API_URL}/analysis/security_events"
+    headers = {'Authorization': f'Bearer {token}'}
+    params = {
+        'q': 'rule.groups=ids', 
+        'limit': 5,
+        'sort': '-timestamp'
+    }
+    
+    response = requests.get(url, headers=headers, params=params, verify=False)
+    
+    if response.status_code == 200:
+        alerts = response.json()['data']['affected_items']
+        print(f"\n--- 🕵️ REPORTE DE INTELIGENCIA ({len(alerts)} eventos recientes) ---")
+        
+        if len(alerts) == 0:
+            print("✅ No hay amenazas recientes detectadas por Snort.")
+        
+        for alert in alerts:
+            hora = alert['timestamp']
+            desc = alert['rule']['description']
+            src = alert.get('data', {}).get('srcip', 'IP Desconocida')
+            print(f"⏰ {hora} | 🚨 {desc}")
+            print(f"   📍 Origen: {src}")
+            print("-" * 40)
+    else:
+        print(f"Error consultando alertas: {response.text}")
+
+if __name__ == "__main__":
+    print("🤖 INICIANDO ANALISTA AUTOMÁTICO SOC...")
+    print("📡 Conectando con el cerebro de Wazuh...")
+    
+    token = get_token()
+    if token:
+        print("🔓 Acceso API Autorizado. Buscando amenazas...")
+        check_alerts(token)
+    
+    print("\n------------------------------------------------")</code></pre>
+
+            <div class="bg-orange-50 border border-orange-200 p-4 rounded mt-4 text-sm">
+                <p><strong>Guardar como:</strong></p>
+                <ul class="list-disc list-inside">
+                    <li>Ruta: <code>D:\Proyectos_SOC</code></li>
+                    <li>Nombre: <code>analista_soc.py</code></li>
+                    <li>Tipo: Todos los archivos (.).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Paso 4 -->
+        <section class="bg-white shadow-md rounded-xl p-6 mb-6 step-card border-l-4 border-red-500">
+            <h2 class="text-2xl font-bold text-red-700 mb-4 flex items-center">
+                <span class="bg-red-100 text-red-700 rounded-full h-10 w-10 flex items-center justify-center mr-3 text-xl">4</span>
+                🔴 PASO 4: Crear el Lanzador (Lanzar_SOC.bat)
+            </h2>
+            <p class="mb-4 text-gray-700">Este archivo automatiza todo el proceso: arranca Docker, espera 1 minuto y lanza el análisis.</p>
+            
+            <ol class="list-decimal list-inside space-y-2 mb-4 text-gray-700">
+                <li>Abre un Bloc de Notas nuevo.</li>
+                <li>Copia y pega este código (asegúrate de que la ID de Snort siga siendo 7, si cambia, edítalo aquí):</li>
+            </ol>
+
+            <div class="code-header"><span>Batch</span><button onclick="copyToClipboard('code-bat')" class="text-xs hover:text-white"><i class="far fa-copy"></i> Copiar</button></div>
+            <pre><code id="code-bat" class="language-dos">@echo off
+TITLE Mini SOC - Centro de Mando
+COLOR 0A
+
+echo ==================================================
+echo   INICIANDO SISTEMA DE VIGILANCIA COMPLETO...
+echo ==================================================
+echo.
+
+:: --- PASO 0.1: ARRANCAR DOCKER DESKTOP ---
+echo 0.1 Iniciando motor Docker Desktop...
+echo     (Si ya estaba abierto, esto no afectara nada)
+:: Ejecutamos Docker y continuamos sin esperar a que se cierre la ventana
+start "" "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+
+:: Esperamos 15 segundos extra para que la interfaz de Docker aparezca
+timeout /t 15 >nul
+
+:: --- PASO 0.2: ARRANQUE DE SNORT ---
+echo.
+echo 0.2 Encendiendo Sensor Snort...
+echo     (Se abrira minimizado en la barra de tareas)
+:: ID 7 y modo -K none
+start /min "Snort Sensor" C:\Snort\bin\snort.exe -c C:\Snort\etc\snort.conf -l C:\Snort\log -i 7 -K none
+
+echo.
+echo 1. Esperando a que Docker y Wazuh carguen motores...
+echo    (Esperando 1 minutos para asegurar conexion estable si vez que ya corre el compose da enter en la terminal...)
+:: Espera de 60 segundos
+timeout /t 60 >nul
+
+echo.
+echo 2. Activando Inteligencia Artificial (Python)...
+cd /d D:\Proyectos_SOC
+call venv\Scripts\activate.bat
+
+echo.
+echo 3. Ejecutando Analisis de Amenazas...
+python analista_soc.py
+
+echo.
+echo ==================================================
+echo   ABRIENDO DASHBOARD WAZUH
+echo ==================================================
+echo.
+echo   [CREDENCIALES]
+echo   User: admin
+echo   Pass: SecretPassword
+echo.
+echo   Abriendo navegador...
+timeout /t 5 >nul
+
+:: Abre el navegador directo en el login
+start "" "https://localhost/app/login?nextUrl=%%2F"
+
+echo.
+echo   SISTEMA OPERATIVO.
+echo   NOTA: No cierres la ventana de "Snort Sensor".
+pause</code></pre>
+
+            <div class="bg-red-50 border border-red-200 p-4 rounded mt-4 text-sm">
+                <p><strong>Guardar como:</strong></p>
+                <ul class="list-disc list-inside">
+                    <li>Ruta: <code>D:\Proyectos_SOC</code></li>
+                    <li>Nombre: <code>Lanzar_SOC.bat</code></li>
+                    <li>Tipo: Todos los archivos (.).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Paso 5 -->
+        <section class="bg-white shadow-md rounded-xl p-6 mb-6 step-card border-l-4 border-purple-500">
+            <h2 class="text-2xl font-bold text-purple-700 mb-4 flex items-center">
+                <span class="bg-purple-100 text-purple-700 rounded-full h-10 w-10 flex items-center justify-center mr-3 text-xl">5</span>
+                🟣 PASO 5: Automatizar al Inicio de Windows
+            </h2>
+            <ol class="list-decimal space-y-3 text-gray-700 ml-5">
+                <li>Ve a <code>D:\Proyectos_SOC</code>.</li>
+                <li>Haz <strong>Clic derecho</strong> sobre <code>Lanzar_SOC.bat</code> > <strong>Mostrar más opciones</strong> > <strong>Crear acceso directo</strong>.</li>
+                <li>Presiona en tu teclado: <kbd class="bg-gray-200 px-2 py-1 rounded text-sm border border-gray-400">Windows</kbd> + <kbd class="bg-gray-200 px-2 py-1 rounded text-sm border border-gray-400">R</kbd>.</li>
+                <li>Escribe: <code>shell:startup</code> y dale a <strong>Enter</strong>. <br><span class="text-sm text-gray-500 italic">(Se abrirá la carpeta de inicio de Windows).</span></li>
+                <li>Mueve el acceso directo que creaste en el paso 2 dentro de esta carpeta.</li>
+            </ol>
+        </section>
+
+        <!-- Resultado Final -->
+        <footer class="bg-slate-800 text-white rounded-xl p-8 mt-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 opacity-10 text-9xl transform translate-x-10 -translate-y-10">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <h2 class="text-3xl font-bold mb-6 border-b border-slate-600 pb-2">🏁 Resultado Final</h2>
+            <p class="mb-4 text-lg">La próxima vez que enciendas tu PC:</p>
+            <ul class="space-y-3 mb-6">
+                <li class="flex items-center"><i class="fas fa-cube text-blue-400 w-8"></i> Docker iniciará solo en silencio.</li>
+                <li class="flex items-center"><i class="fas fa-shield-alt text-red-400 w-8"></i> Se abrirá una ventana de Snort y se minimizará sola a la barra de tareas.</li>
+                <li class="flex items-center"><i class="fas fa-hourglass-half text-yellow-400 w-8"></i> Se abrirá la ventana del Lanzador, esperará 1 minuto (tiempo suficiente para que la API responda).</li>
+                <li class="flex items-center"><i class="fas fa-robot text-purple-400 w-8"></i> Ejecutará el script de Python y verás el reporte.</li>
+                <li class="flex items-center"><i class="fas fa-globe text-green-400 w-8"></i> Se abrirá tu Navegador en la página de login.</li>
+            </ul>
+            <div class="bg-slate-700 p-4 rounded-lg border-l-4 border-blue-400">
+                <p><strong>Tip:</strong> La primera vez, escribe las credenciales y dale a "Guardar contraseña" en el navegador para que el login sea automático después.</p>
+            </div>
+            <p class="text-center font-bold text-xl mt-6">¡Ahora sí, sistema perfecto! 🚀</p>
+        </footer>
+
+    </div>
+
+    <!-- Script para copiar al portapapeles -->
+    <script>
+        function copyToClipboard(elementId) {
+            const codeText = document.getElementById(elementId).innerText;
+            
+            // Usar la API moderna del portapapeles
+            if (navigator.clipboard && window.isSecureContext) {
+                 navigator.clipboard.writeText(codeText).then(() => {
+                    showCopyFeedback(elementId);
+                }).catch(err => {
+                    console.error('Error al copiar: ', err);
+                    fallbackCopyTextToClipboard(codeText, elementId);
+                });
+            } else {
+                fallbackCopyTextToClipboard(codeText, elementId);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text, elementId) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";  // Evita el scroll al final de la página
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                var successful = document.execCommand('copy');
+                if(successful) showCopyFeedback(elementId);
+            } catch (err) {
+                console.error('Fallback: Error al copiar', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showCopyFeedback(elementId) {
+            // Encuentra el botón asociado a este bloque de código
+            const btn = document.querySelector(`button[onclick="copyToClipboard('${elementId}')"]`);
+            if(btn) {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                btn.classList.add('text-green-400');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('text-green-400');
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>

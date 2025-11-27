@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Maestra: De Cero a SOC</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .header-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #2196f3;
+        }
+        .header-box p {
+            margin: 5px 0;
+            font-weight: 500;
+        }
+        .fase {
+            background: #f9f9f9;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            border-left: 5px solid;
+        }
+        .fase-green {
+            border-left-color: #4caf50;
+            background: linear-gradient(to right, #e8f5e9 0%, #f9f9f9 10%);
+        }
+        .fase-yellow {
+            border-left-color: #ffc107;
+            background: linear-gradient(to right, #fff8e1 0%, #f9f9f9 10%);
+        }
+        .fase-orange {
+            border-left-color: #ff9800;
+            background: linear-gradient(to right, #fff3e0 0%, #f9f9f9 10%);
+        }
+        .fase-red {
+            border-left-color: #f44336;
+            background: linear-gradient(to right, #ffebee 0%, #f9f9f9 10%);
+        }
+        .fase-blue {
+            border-left-color: #2196f3;
+            background: linear-gradient(to right, #e3f2fd 0%, #f9f9f9 10%);
+        }
+        .fase-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .fase-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .emoji {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .stop-box {
+            background: #ffebee;
+            border: 3px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .note-box {
+            background: #e8eaf6;
+            border-left: 4px solid #5c6bc0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        ol {
+            padding-left: 20px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        ul li {
+            padding-left: 30px;
+            position: relative;
+            margin: 8px 0;
+        }
+        ul li:before {
+            content: "•";
+            position: absolute;
+            left: 10px;
+            color: #667eea;
+            font-size: 20px;
+        }
+        .credential-box {
+            background: #263238;
+            color: #aed581;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            border: 3px solid #4caf50;
+        }
+        .final-celebration {
+            background: linear-gradient(135deg, #ffd54f 0%, #ffca28 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border: 3px solid #f9a825;
+            text-align: center;
+        }
+        .final-celebration h2 {
+            color: #f57f17;
+            margin-top: 0;
+            font-size: 28px;
+        }
+        .link-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 18px;
+            border: 2px solid #2196f3;
+        }
+        .link-box a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .steps-list {
+            counter-reset: step-counter;
+        }
+        .steps-list > li {
+            counter-increment: step-counter;
+        }
+        .steps-list > li:before {
+            content: counter(step-counter) ".";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">📘</span> Guía Maestra: De Cero a SOC (Wazuh 4.14.0)</h1>
+        
+        <div class="header-box">
+            <p><strong>Para:</strong> Windows 11 Pro sin configuración previa.</p>
+            <p><strong>Objetivo:</strong> Habilitar subsistema Linux, instalar Docker, instalar Git y desplegar Wazuh en el disco D.</p>
+        </div>
+
+        <div class="fase fase-green">
+            <div class="fase-title"><span class="emoji">🟢</span> FASE 1: Los Cimientos (WSL y Docker)</div>
+            <div class="fase-subtitle">Para que Wazuh funcione, Windows necesita "hablar" Linux.</div>
+
+            <h3>1. Activar el subsistema Linux (WSL)</h3>
+            <ol class="steps-list">
+                <li>Abre PowerShell como Administrador.</li>
+                <li>
+                    <p>Escribe y ejecuta:</p>
+                    <pre><code>wsl --install</code></pre>
+                    <p>(Esto descargará Ubuntu y activará las características necesarias).</p>
+                </li>
+                <li>
+                    <div class="stop-box">
+                        <span class="emoji">🛑</span> REINICIA TU PC AHORA.
+                    </div>
+                    <div class="note-box">
+                        <p><strong>Nota:</strong> Al volver a encender, se abrirá una ventana negra pidiéndote crear un usuario para Linux. Pon un nombre simple y una contraseña (no importa cuál, es solo para el Linux interno). Luego ciérrala.</p>
+                    </div>
+                </li>
+            </ol>
+
+            <h3>2. Instalar Docker Desktop (El Motor)</h3>
+            <p>Docker es quien ejecutará los contenedores de Wazuh. Lo instalaremos vía comando también:</p>
+            <ol class="steps-list">
+                <li>Abre PowerShell (Admin) de nuevo.</li>
+                <li>
+                    <p>Ejecuta:</p>
+                    <pre><code>winget install Docker.DockerDesktop</code></pre>
+                </li>
+                <li>Sigue las instrucciones en pantalla. Si te pide cerrar sesión ("Log out"), hazlo.</li>
+                <li>Una vez instalado, abre la aplicación <strong>Docker Desktop</strong> y acepta los términos. Espera a que el ícono de la ballena en la barra de tareas deje de moverse (significa que el motor arrancó).</li>
+            </ol>
+        </div>
+
+        <div class="fase fase-yellow">
+            <div class="fase-title"><span class="emoji">🟡</span> FASE 2: Las Herramientas (Git)</div>
+            <div class="fase-subtitle">Sin Git, no podemos descargar el repositorio de Wazuh.</div>
+
+            <ol class="steps-list">
+                <li>
+                    <p>En la misma PowerShell (o una nueva), instala Git:</p>
+                    <pre><code>winget install --id Git.Git -e --source winget</code></pre>
+                </li>
+                <li>
+                    <div class="stop-box">
+                        <span class="emoji">🛑</span> CIERRA la ventana de PowerShell y ABRE UNA NUEVA.
+                    </div>
+                    <div class="note-box">
+                        <p><strong>¿Por qué?</strong> Si no la cierras, Windows no sabrá que Git ya está instalado y te dará el error de "comando no reconocido".</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="fase fase-orange">
+            <div class="fase-title"><span class="emoji">🟠</span> FASE 3: Descarga y Configuración del SOC</div>
+            <div class="fase-subtitle">Ahora que tu PC ya tiene superpoderes, vamos a instalar Wazuh en tu disco de 4TB.</div>
+
+            <h3>1. Preparar el directorio en D:</h3>
+            <pre><code>d:
+mkdir Proyectos_SOC
+cd Proyectos_SOC</code></pre>
+
+            <h3>2. Descargar Wazuh (Versión Estable v4.14.0)</h3>
+            <p>Usamos esta versión específica para evitar errores de desarrollo.</p>
+            <pre><code>git clone https://github.com/wazuh/wazuh-docker.git -b v4.14.0</code></pre>
+
+            <h3>3. Entrar a la carpeta de instalación</h3>
+            <pre><code>cd wazuh-docker\single-node</code></pre>
+
+            <h3>4. Generar la Seguridad (Certificados)</h3>
+            <p>Wazuh no arrancará si no creamos sus llaves de seguridad primero. Ejecuta esto:</p>
+            <pre><code>docker-compose -f generate-indexer-certs.yml run --rm generator</code></pre>
+
+            <div class="success-box">
+                <p>Si ves un mensaje diciendo <strong>"Certificates generation finished"</strong>, todo está perfecto.</p>
+            </div>
+        </div>
+
+        <div class="fase fase-red">
+            <div class="fase-title"><span class="emoji">🔴</span> FASE 4: El Secreto y el Lanzamiento 🚀</div>
+            <div class="fase-subtitle">Antes de arrancar, te explico el detalle de las contraseñas que me pediste.</div>
+
+            <h3>1. ¿Dónde está la contraseña? 🕵️‍♂️</h3>
+            <p>Dentro de la carpeta donde estás (<code>single-node</code>), hay un archivo llamado <code>docker-compose.yml</code>. Ahí es donde se configuran las claves.</p>
+            <p>No necesitas editarlo ahora, pero para que lo sepas, si abres ese archivo verás esto:</p>
+            <div class="credential-box">
+<pre><code>environment:
+  - INDEXER_USERNAME=admin
+  - INDEXER_PASSWORD=SecretPassword  &lt;-- ESTA ES LA CLAVE</code></pre>
+            </div>
+            <div class="note-box">
+                <p>Docker leerá este archivo y configurará tu servidor con esa contraseña automáticamente.</p>
+            </div>
+
+            <h3>2. ¡Encender el Sistema!</h3>
+            <p>Llegó el momento de la verdad. Ejecuta:</p>
+            <pre><code>docker-compose up -d</code></pre>
+
+            <ul>
+                <li>Docker empezará a descargar ("Pulling") las imágenes de Wazuh.</li>
+                <li>Paciencia: Con tu internet y procesador Ryzen será rápido, pero dale unos 2-3 minutos.</li>
+            </ul>
+        </div>
+
+        <div class="fase fase-blue">
+            <div class="fase-title"><span class="emoji">🔵</span> FASE 5: Acceso</div>
+
+            <ol class="steps-list">
+                <li>Espera unos 2 minutos después de que termine el comando anterior.</li>
+                <li>
+                    <p>Abre tu navegador y entra a:</p>
+                    <div class="link-box">
+                        <span class="emoji">👉</span> <code>https://localhost</code>
+                    </div>
+                </li>
+                <li>Acepta la advertencia de seguridad ("Configuración avanzada" > "Continuar").</li>
+                <li>
+                    <p>Ingresa tus credenciales:</p>
+                    <div class="credential-box">
+<pre><code>Usuario: admin
+Contraseña: SecretPassword</code></pre>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="final-celebration">
+            <h2><span class="emoji">🎉</span> ¡Felicidades!</h2>
+            <p style="font-size: 18px; margin: 20px 0;">Has pasado de tener un Windows limpio a tener un <strong>SOC de ciberseguridad funcional</strong> usando Docker y Linux, todo desde la terminal.</p>
+        </div>
+    </div>
+</body>
+</html>

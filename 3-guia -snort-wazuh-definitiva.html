@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Definitiva: Snort + Wazuh</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .header-box {
+            background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4caf50;
+        }
+        .header-box p {
+            margin: 5px 0;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        .status-badge {
+            background: #4caf50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .paso {
+            background: #f9f9f9;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            border-left: 5px solid;
+        }
+        .paso-green { border-left-color: #4caf50; background: linear-gradient(to right, #e8f5e9 0%, #f9f9f9 10%); }
+        .paso-yellow { border-left-color: #ffc107; background: linear-gradient(to right, #fff8e1 0%, #f9f9f9 10%); }
+        .paso-orange { border-left-color: #ff9800; background: linear-gradient(to right, #fff3e0 0%, #f9f9f9 10%); }
+        .paso-red { border-left-color: #f44336; background: linear-gradient(to right, #ffebee 0%, #f9f9f9 10%); }
+        .paso-purple { border-left-color: #9c27b0; background: linear-gradient(to right, #f3e5f5 0%, #f9f9f9 10%); }
+        .paso-black { border-left-color: #424242; background: linear-gradient(to right, #eeeeee 0%, #f9f9f9 10%); }
+        .paso-finish { border-left-color: #00897b; background: linear-gradient(to right, #e0f2f1 0%, #f9f9f9 10%); }
+        .paso-verify { border-left-color: #1976d2; background: linear-gradient(to right, #e3f2fd 0%, #f9f9f9 10%); }
+        
+        .paso-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .paso-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .emoji {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .critical-box {
+            background: #ffebee;
+            border: 3px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .critical-box strong {
+            color: #c62828;
+        }
+        .note-box {
+            background: #e8eaf6;
+            border-left: 4px solid #5c6bc0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .info-box {
+            background: #e1f5fe;
+            border-left: 4px solid #29b6f6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .checkbox-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checkbox-list li {
+            padding-left: 35px;
+            position: relative;
+            margin: 10px 0;
+        }
+        .checkbox-unchecked:before {
+            content: "⬜";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+        .checkbox-checked:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+        ol {
+            padding-left: 20px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        .download-link {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .download-link strong {
+            color: #1976d2;
+        }
+        .config-file {
+            background: #263238;
+            color: #aed581;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 3px solid #4caf50;
+        }
+        .command-explanation {
+            background: #fff8e1;
+            border-left: 4px solid #ffa726;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .command-explanation h4 {
+            margin-top: 0;
+            color: #e65100;
+        }
+        .final-celebration {
+            background: linear-gradient(135deg, #ffd54f 0%, #ffca28 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border: 3px solid #f9a825;
+            text-align: center;
+        }
+        .final-celebration h3 {
+            color: #f57f17;
+            margin-top: 0;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">📘</span> Guía Maestra Definitiva: Snort + Wazuh (Windows 11)</h1>
+        
+        <div class="header-box">
+            <span class="status-badge"><span class="emoji">✅</span> Probado y Funcional</span>
+            <p><strong>Objetivo:</strong> Convertir tu PC en un sensor de intrusiones (IDS) que envía alertas al Mini SOC Wazuh.</p>
+        </div>
+
+        <div class="paso paso-green">
+            <div class="paso-title"><span class="emoji">🟢</span> PASO 1: Instalar Npcap <span style="color: #666; font-size: 18px;">(El Traductor)</span></div>
+            <div class="paso-subtitle">Snort necesita esto para "escuchar" la tarjeta Wi-Fi.</div>
+
+            <div class="download-link">
+                <p><strong>Descarga:</strong> Npcap Free Edition.</p>
+            </div>
+
+            <p><strong>Instalación:</strong> En la pantalla "Installation Options", marca EXACTAMENTE estas casillas:</p>
+            
+            <ul class="checkbox-list">
+                <li class="checkbox-unchecked"><strong>Restrict Npcap driver's access...</strong> → DESMARCADO.</li>
+                <li class="checkbox-checked"><strong>Support raw 802.11 traffic</strong> → MARCADO.</li>
+                <li class="checkbox-checked">
+                    <strong>Install Npcap in WinPcap API-compatible Mode</strong> → MARCADO
+                    <div class="critical-box" style="margin-top: 10px; margin-left: -35px;">
+                        <span class="emoji">⚠️</span> <strong>VITAL</strong>
+                    </div>
+                </li>
+            </ul>
+
+            <p>Finaliza la instalación.</p>
+        </div>
+
+        <div class="paso paso-yellow">
+            <div class="paso-title"><span class="emoji">🟡</span> PASO 2: Instalar Snort <span style="color: #666; font-size: 18px;">(El Motor)</span></div>
+
+            <ol>
+                <li>Descarga el instalador <strong>Snort 2.9.x para Windows</strong>.</li>
+                <li>Instálalo en <code>C:\Snort</code>. <strong>No cambies la ruta</strong>.</li>
+            </ol>
+        </div>
+
+        <div class="paso paso-orange">
+            <div class="paso-title"><span class="emoji">🟠</span> PASO 3: Obtener tu ID de Red</div>
+
+            <ol>
+                <li>Abre <strong>PowerShell como Administrador</strong>.</li>
+                <li>
+                    <p>Entra a la carpeta:</p>
+                    <pre><code>cd C:\Snort\bin</code></pre>
+                </li>
+                <li>
+                    <p>Ejecuta:</p>
+                    <pre><code>.\snort -W</code></pre>
+                </li>
+                <li>
+                    <div class="info-box">
+                        <p>Busca la línea con tu IP y anota el número de la columna <strong>Index</strong> (ej: 7). Ese es tu número.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="paso paso-red">
+            <div class="paso-title"><span class="emoji">🔴</span> PASO 4: Preparar Carpetas y Reglas</div>
+
+            <h3>Crear carpetas:</h3>
+            <p>Ejecuta esto en PowerShell para evitar errores de "path not found":</p>
+            <pre><code>mkdir C:\Snort\log
+mkdir C:\Snort\lib\snort_dynamicrules</code></pre>
+
+            <h3>Crear Regla de Prueba:</h3>
+            <ol>
+                <li>Ve a <code>C:\Snort\rules</code>.</li>
+                <li>Crea un archivo llamado <code>local.rules</code> (borra la extensión <code>.txt</code>).</li>
+                <li>
+                    <p>Pega esto dentro:</p>
+                    <pre><code>alert icmp any any -> any any (msg:"Wazuh Test - Ping Detectado"; sid:1000001; rev:1;)</code></pre>
+                </li>
+            </ol>
+        </div>
+
+        <div class="paso paso-purple">
+            <div class="paso-title"><span class="emoji">🟣</span> PASO 5: El "snort.conf" Corregido <span style="color: #666; font-size: 18px;">(Plan B - Fast Mode)</span></div>
+            <div class="paso-subtitle">Este archivo está limpio de errores de Linux y configurado en modo rápido para que Wazuh lo lea bien.</div>
+
+            <ol>
+                <li>Ve a <code>C:\Snort\etc</code>.</li>
+                <li>Abre <code>snort.conf</code> y <strong>BORRA TODO</strong>.</li>
+                <li>
+                    <p>Pega este código completo:</p>
+                    <div class="config-file">
+<pre><code>#--------------------------------------------------
+#   SNORT.CONF - VERSIÓN FINAL (WAZUH COMPATIBLE)
+#--------------------------------------------------
+
+# 1. Variables de Red
+ipvar HOME_NET any
+ipvar EXTERNAL_NET any
+
+# Rutas absolutas
+var RULE_PATH C:\Snort\rules
+var SO_RULE_PATH C:\Snort\so_rules
+var PREPROC_RULE_PATH C:\Snort\preproc_rules
+var WHITE_LIST_PATH C:\Snort\rules
+var BLACK_LIST_PATH C:\Snort\rules
+
+# 2. Configuración Básica
+config disable_decode_alerts
+config disable_tcpopt_experimental_alerts
+config disable_tcpopt_obsolete_alerts
+config disable_tcpopt_ttcp_alerts
+config disable_tcpopt_alerts
+config disable_ipopt_alerts
+config checksum_mode: all
+config logdir: C:\Snort\log
+
+# 3. Motor de Detección
+config pcre_match_limit: 3500
+config pcre_match_limit_recursion: 1500
+config detection: search-method ac-split search-optimize max-pattern-len 20
+config event_queue: max_queue 8 log 5 order_events content_length
+
+# 4. Librerías (DLLs)
+dynamicpreprocessor directory C:\Snort\lib\snort_dynamicpreprocessor
+dynamicengine C:\Snort\lib\snort_dynamicengine\sf_engine.dll
+dynamicdetection directory C:\Snort\lib\snort_dynamicrules
+
+# 5. Preprocesadores
+preprocessor normalize_ip4
+preprocessor normalize_tcp: ips ecn stream
+preprocessor normalize_icmp4
+preprocessor normalize_ip6
+preprocessor normalize_icmp6
+
+preprocessor frag3_global: max_frags 65536
+preprocessor frag3_engine: policy windows detect_anomalies overlap_limit 10 min_fragment_length 100 timeout 180
+
+preprocessor stream5_global: track_tcp yes, track_udp yes, track_icmp no, max_tcp 262144, max_udp 131072
+preprocessor stream5_tcp: policy windows, detect_anomalies, require_3whs 180, overlap_limit 10, small_segments 3 bytes 150, timeout 180
+preprocessor stream5_udp: timeout 180
+
+preprocessor http_inspect: global iis_unicode_map C:\Snort\etc\unicode.map 1252 compress_depth 65535 decompress_depth 65535
+preprocessor http_inspect_server: server default profile all ports { 80 8080 8180 } oversize_dir_length 500
+
+preprocessor rpc_decode: 111 32770 no_alert_multiple_requests no_alert_large_fragments no_alert_incomplete
+preprocessor bo
+
+# FTP/Telnet (Corregido: Cliente Agregado)
+preprocessor ftp_telnet: global inspection_type stateful encrypted_traffic no check_encrypted
+preprocessor ftp_telnet_protocol: telnet ayt_attack_thresh 20 normalize ports { 23 } detect_anomalies
+preprocessor ftp_telnet_protocol: ftp server default ports { 21 }
+preprocessor ftp_telnet_protocol: ftp client default max_resp_len 256 bounce yes
+
+preprocessor smtp: ports { 25 } inspection_type stateful
+preprocessor ssh: server_ports { 22 } autodetect max_client_bytes 19600 max_encrypted_packets 20
+preprocessor dns: ports { 53 } enable_rdata_overflow
+# SSL desactivado para evitar error
+# preprocessor ssl: ports { 443 } trustservers, noinspect_encrypted
+preprocessor sensitive_data: alert_threshold 25
+
+# 6. Salida (LA CLAVE DEL ÉXITO)
+# Usamos modo "fast" (una línea) para que Wazuh no falle al leer.
+output alert_fast: alert.ids
+
+# 7. Reglas
+include classification.config
+include reference.config
+include $RULE_PATH/local.rules</code></pre>
+                    </div>
+                </li>
+                <li>Guarda el archivo.</li>
+            </ol>
+        </div>
+
+        <div class="paso paso-black">
+            <div class="paso-title"><span class="emoji">⚫</span> PASO 6: Configurar Agente Wazuh <span style="color: #666; font-size: 18px;">(El Enlace)</span></div>
+
+            <ol>
+                <li>Ve a <code>C:\Program Files (x86)\ossec-agent</code>.</li>
+                <li>Abre <code>ossec.conf</code> (como Admin).</li>
+                <li>
+                    <p>Al final, antes de <code>&lt;/ossec_config&gt;</code>, pega esto (usamos <code>snort-fast</code>):</p>
+                    <pre><code>&lt;localfile&gt;
+  &lt;log_format&gt;snort-fast&lt;/log_format&gt;
+  &lt;location&gt;C:\Snort\log\alert.ids&lt;/location&gt;
+&lt;/localfile&gt;</code></pre>
+                </li>
+            </ol>
+
+            <h3>Reiniciar Agente:</h3>
+            <p>Abre PowerShell (Admin) y ejecuta:</p>
+            <pre><code>Restart-Service WazuhSvc</code></pre>
+        </div>
+
+        <div class="paso paso-finish">
+            <div class="paso-title"><span class="emoji">🏁</span> PASO 7: Ejecución <span style="color: #666; font-size: 18px;">(Modo Silencioso)</span></div>
+            <div class="paso-subtitle">Este comando evita el error de carpetas prohibidas en Windows.</div>
+
+            <h3>Limpieza:</h3>
+            <p>Ve a <code>C:\Snort\log</code> y borra cualquier archivo viejo.</p>
+
+            <h3>Ejecutar:</h3>
+            <p>En PowerShell (<code>C:\Snort\bin</code>), ejecuta (cambia el <code>7</code> por tu ID):</p>
+            <pre><code>.\snort.exe -c C:\Snort\etc\snort.conf -l C:\Snort\log -i 7 -K none</code></pre>
+
+            <div class="command-explanation">
+                <h4>Explicación:</h4>
+                <ul>
+                    <li><code>-K none</code>: No intenta guardar paquetes crudos (evita el error <code>mkdir invalid argument</code>).</li>
+                    <li><code>-l</code>: Dice dónde guardar el <code>alert.ids</code>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="paso paso-verify">
+            <div class="paso-title"><span class="emoji">🔎</span> PASO 8: Verificación en Wazuh</div>
+
+            <ol>
+                <li>Deja la ventana negra corriendo (se quedará quieta en <code>Commencing packet processing</code>).</li>
+                <li>Haz un <strong>Ping</strong> desde tu celular a tu PC.</li>
+                <li>Ve a tu <strong>Wazuh Dashboard</strong> (<code>https://localhost</code>).</li>
+                <li>
+                    <p>Usa la barra de búsqueda superior y escribe:</p>
+                    <pre><code>snort</code></pre>
+                    <div class="note-box">
+                        <p>Opcional: <code>rule.groups:ids</code></p>
+                    </div>
+                </li>
+            </ol>
+
+            <div class="final-celebration">
+                <h3><span class="emoji">🎉</span> ¡Verás la alerta aparecer!</h3>
+                <p style="font-size: 18px; margin-top: 15px;">Tu sistema IDS está funcionando correctamente y enviando alertas a Wazuh.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
